@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head/>
+<h:body>
+    <h2>Teams:</h2>
+    <ol>
+        <ui:repeat value="#{teams.allTeams}" var="team">
+            <li><h:link value="#{team.name}" outcome="players?teamId=#{team.id}" /></li>
+        </ui:repeat>
+    </ol>
+    <h:form>
+        <h:inputText value="#{teams.teamToCreate.name}" required="true" />
+        <h:commandButton value="Add new team" action="#{teams.createTeam}" />
+    </h:form>
+
+    <h2>Orders:</h2>
+    <ul>
+        <ui:repeat value="#{orders.allOrders}" var="order">
+            <li><h:link value="#{order.getDate()}" outcome="order?orderId=#{order.id}"/></li>
+        </ui:repeat>
+    </ul>
+
+    <h2>New customer:</h2>
+    <h:form>
+        first name: <h:inputText value="#{customers.customerToCreate.firstName}" required="true"></h:inputText>
+        last name: <h:inputText value="#{customers.customerToCreate.lastName}" required="true"></h:inputText>
+        city: <h:inputText value="#{customers.customerToCreate.city}" required="true"></h:inputText>
+        country: <h:inputText value="#{customers.customerToCreate.country}" required="true"></h:inputText>
+        <h:commandButton value="Add new customer" action="#{customers.createCustomer}"/>
+    </h:form>
+
+    <h2>New product:</h2>
+    <h:form>
+        name: <h:inputText value="#{products.productToCreate.name}" required="true"></h:inputText>
+        description: <h:inputText value="#{products.productToCreate.description}" required="false"></h:inputText>
+        unit price: <h:inputText value="#{products.productToCreate.price}" required="true" validatorMessage="Enter a non-negative number please"><f:validateDoubleRange minimum="0"/></h:inputText>
+        stock: <h:inputText value="#{products.productToCreate.stock}" required="true" validatorMessage="Enter a non-negative number please"><f:validateLongRange minimum="0"/></h:inputText>
+        <h:commandButton value="Add new product" action="#{products.createProduct}"/>
+    </h:form>
+
+    <h2>New order:</h2>
+    <h:form>
+        select customer:
+        <h:selectOneRadio value="#{orders.orderToCreate.customer}" required="true">
+            <f:selectItems value="#{customers.allCustomers}" var="cust" itemLabel="#{customers.getFriendlyName(cust)}" itemValue="#{cust}"/>
+        </h:selectOneRadio>
+        select products:
+        <h:selectManyCheckbox value="#{orders.orderToCreate.products}" required="true">
+            <f:selectItems value="#{products.allProducts}" var="prod" itemLabel="#{products.getFriendlyName(prod)}" itemValue="#{prod}"/>
+        </h:selectManyCheckbox>
+        <h:commandButton value="Add order" action="#{orders.createOrder}"/>
+    </h:form>
+    <h:link outcome="myBatis/teams" value="MyBatis implementation"/>
+</h:body>
+</html>

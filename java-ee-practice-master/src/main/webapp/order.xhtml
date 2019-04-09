@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>Items #{orderSpecific.order.date} order by #{orderSpecific.order.customer.firstName} #{orderSpecific.order.customer.lastName}:</h2>
+    <ol>
+        <ui:repeat value="#{orderSpecific.order.products}" var="prod">
+            <li>#{prod.name} - #{prod.price} - #{prod.stock} - #{prod.description}</li>
+        </ui:repeat>
+    </ol>
+    <h:link outcome="index" value="Back to main page"/>
+</h:body>
+</html>
